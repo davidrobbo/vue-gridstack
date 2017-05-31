@@ -8,7 +8,6 @@
   import event from '../event'
   import test from './Test'
   import griditem from './GridItem.vue'
-  import bar from './SimpleBar.vue'
   export default {
     name: 'grid',
     props: [ 'gridOptions' ],
@@ -22,10 +21,12 @@
         list: [
           { x: 0, y: 0, h: 4, w: 4, comp: 'bar' },
           { x: 0, y: 4, h: 4, w: 4, comp: 'myline' },
-          { x: 0, y: 8, h: 4, w: 4, comp: 'bar' },
-          { x: 0, y: 12, h: 4, w: 4, comp: 'myline' },
+          { x: 0, y: 8, h: 4, w: 4, comp: 'pie' },
+          { x: 0, y: 12, h: 4, w: 4, comp: 'donut' },
           { x: 0, y: 16, h: 4, w: 4, comp: 'bar' },
-          { x: 0, y: 20, h: 4, w: 4, comp: 'myline' }
+          { x: 0, y: 20, h: 4, w: 4, comp: 'myline' },
+          { x: 0, y: 24, h: 4, w: 4, comp: 'pie' },
+          { x: 0, y: 28, h: 4, w: 4, comp: 'donut' }
         ],
         options: {
           cellHeight: 110,
@@ -50,16 +51,20 @@
         }
       },
       calculateIndexes() {
-          let data = {}
+          // a tad of a hack! manual sync of indexes - not vuey
+          let items = []
           $("#" + this.gridId).find(".grid-stack-item").each( function( index ) {
               var ele = $(this).data('_gridstack_node')
-            console.log(ele)
-              data[ele.el[0].id]  = index
+              items.push({
+                id: ele.el[0].id,
+                x: ele.x,
+                y: ele.y,
+              })
           })
-          /*let sortItems = items.sort( (a, b) => {
-            if (a.x - b.x > 0) {
+          let sortItems = items.sort( (a, b) => {
+            if (a.y - b.y > 0) {
               return 1
-            } else if ( (a.x - b.x <= 0) && a.y - b.y > 0) {
+            } else if ( (a.y - b.y <= 0) && a.x - b.x > 0) {
               return 1
             }
             return 0
@@ -68,8 +73,6 @@
           sortItems.forEach( (item, index) => {
               data[item.id] = index
           })
-          console.log(items, sortItems)*/
-          //console.log(data)
           event.$emit("re-indexed-items", data)
       },
       emitItemsMoved(e, items) {

@@ -67,7 +67,7 @@ export default {
       this.cols = n
     },
     prevChartFullScreen() {
-      event.$emit("prev-chart-screen", { index: this.i +1 })
+      event.$emit("prev-chart-screen", { index: this.i -1 })
       this.isFullScreen = false
     },
     nextChartFullScreen() {

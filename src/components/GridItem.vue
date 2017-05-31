@@ -9,13 +9,17 @@
   import test from './Test'
   import bar from './SimpleBar.vue'
   import line from './SimpleLine.vue'
+  import pie from './SimplePie.vue'
+  import donut from './SimpleDonut.vue'
   export default {
     name: 'griditem',
     props: [ 'item', 'i', 'height' ],
     components: {
       test: test,
       bar: bar,
-      myline: line
+      myline: line,
+      pie: pie,
+      donut: donut
     },
     data () {
       return {
